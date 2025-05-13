@@ -1,102 +1,116 @@
+/* ─── RESET ───────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0}
 
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Vazir', sans-serif; 
-    background: url("../images/giphy.webp") no-repeat center center fixed;
-    background-size: cover; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    overflow: hidden;
-    color: white;
+/* ─── GLOBAL ──────────────────────── */
+body{
+    font-family:'Segoe UI',Tahoma,sans-serif;
+    color:#f5f6fa;
+    min-height:100vh;
+    display:flex;flex-direction:column;
 }
 
+/* ─── NAVBAR ──────────────────────── */
+.navbar{
+    height:64px;background:#222;padding:4px 2rem;
+    display:flex;align-items:center;justify-content:space-between;
+    box-shadow:0 2px 4px rgba(0,0,0,.35);
+    position:sticky;top:0;z-index:100;
+}
+.nav-link{
+    color:#fff;text-decoration:none;font-weight:600;font-size:1rem;
+}
+.nav-link:hover{text-decoration:underline}
 
-@keyframes gradientAnimation {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+/* Account dropdown (click-to-toggle) */
+.account-dropdown{position:relative}
+.account-btn{
+    background:#2e86de;border:none;border-radius:6px;
+    color:#fff;padding:.5rem 1.1rem;font-size:1rem;cursor:pointer
+}
+.account-btn.active{background:#1b4f72}
+.account-menu{
+    display:none;               /* shown via .show class */
+    position:absolute;right:0;top:110%;
+    background:#fff;min-width:180px;border-radius:6px;
+    box-shadow:0 8px 16px rgba(0,0,0,.25);overflow:hidden;z-index:200
+}
+.account-menu.show{display:block}
+.account-menu a{
+    display:block;padding:.7rem 1.1rem;color:#333;
+    text-decoration:none;font-weight:500
+}
+.account-menu a:hover{background:#f1f1f1}
+
+/* ─── HERO / WELCOME ──────────────── */
+.welcome-container{
+    margin:6rem auto 2rem;text-align:center;
+    background:rgba(0,0,0,.65);
+    padding:2.5rem 3rem;border-radius:15px;
+    max-width:800px;box-shadow:0 5px 25px rgba(0,0,0,.4)
+}
+.welcome-container h1{
+    font-size:2.2rem;text-shadow:0 2px 8px rgba(0,0,0,.5)
 }
 
+/* ─── GROUP SELECTOR ──────────────── */
+.group-selector{margin:2rem auto 4rem;text-align:center;position:relative}
+.group-btn{
+    background:#2e86de;border:none;border-radius:6px;
+    color:#fff;padding:.6rem 1.4rem;font-size:1.05rem;cursor:pointer
+}
+.group-btn.active{background:#1b4f72}
+.group-menu{
+    display:none;               /* shown via .show class */
+    position:absolute;left:50%;transform:translateX(-50%);
+    top:110%;background:#fff;min-width:200px;border-radius:6px;
+    box-shadow:0 8px 16px rgba(0,0,0,.25);overflow:hidden;z-index:200
+}
+.group-menu.show{display:block}
+.group-menu a{
+    display:block;padding:.7rem 1.1rem;color:#333;
+    text-decoration:none;font-weight:500
+}
+.group-menu a:hover{background:#f1f1f1}
 
-.welcome-container {
-    text-align: center;
-    padding: 20px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 15px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+/* ─── MOBILE ──────────────────────── */
+@media(max-width:600px){
+    .navbar{flex-direction:column;height:auto;padding:1rem}
+    .navbar-left{margin-bottom:.5rem}
+}
+.icon{
+    width:20px;
+    height:20px;
+    vertical-align:middle;
+    margin-right:6px;
+    flex-shrink:0;
+}
+/* ▼ ACCOUNT MENU & GROUP MENU (shared styles) ▼ */
+.account-menu,
+.group-menu{
+    display:none;                         /* default hidden */
+    position:absolute;
+    /* the two lines below remain as-is */
+    min-width:180px; border-radius:6px; overflow:hidden; z-index:200;
+    box-shadow:0 8px 16px rgba(0,0,0,.25);
+
+    /* NEW — translucent dark bg like welcome-container */
+    background:rgba(0,0,0,.65);
 }
 
+/* show class already added via JS */
+.account-menu.show,
+.group-menu.show{display:block}
 
-.welcome-container h1 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    text-shadow: 0px 3px 6px rgba(0, 0, 0, 0.5);
+/* menu links */
+.account-menu a,
+.group-menu  a{
+    display:block; padding:.7rem 1.1rem;
+    /* NEW — white text for contrast */
+    color:#f5f6fa; text-decoration:none; font-weight:500;
 }
 
-
-.button-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
+.account-menu a:hover,
+.group-menu  a:hover{
+    /* NEW — slightly lighter tint on hover */
+    background:rgba(255,255,255,.08);
 }
-
-
-.button {
-    text-decoration: none;
-    color: white;
-    font-size: 1.2rem;
-    padding: 15px 30px;
-    background: linear-gradient(90deg, #ff7e5f, #feb47b);
-    border-radius: 25px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
-    transition: transform 0.3s, box-shadow 0.3s;
-    position: relative;
-    overflow: hidden;
-}
-
-
-.button::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 200%;
-    height: 200%;
-    background: rgba(255, 255, 255, 0.5);
-    transform: translate(-50%, -50%) scale(0);
-    border-radius: 50%;
-    transition: transform 0.6s ease-out;
-    z-index: 0;
-}
-
-.button:hover::before {
-    transform: translate(-50%, -50%) scale(1);
-}
-
-
-.button:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
-}
-
-
-@keyframes buttonPop {
-    0% {
-        transform: scale(0);
-        opacity: 0;
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
-}
-
-.button {
-    animation: buttonPop 0.5s ease forwards;
-}
-

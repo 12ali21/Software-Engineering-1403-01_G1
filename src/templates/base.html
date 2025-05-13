@@ -1,20 +1,103 @@
-<!DOCTYPE html>
 {% load static %}
-<html lang="fa">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحه خانه</title>
-    <link rel="stylesheet" href="{% static 'base/style.css' %}">
+    <meta charset="UTF-8" />
+    <title>Microservices Portal</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Main stylesheet -->
+    <link rel="stylesheet" href="{% static 'base/style.css' %}" />
+
+    <style>
+        body{
+            background:url("{% static 'images/english-books-stacks-table-working-space.jpg' %}")
+                        no-repeat center/cover fixed;
+        }
+    </style>
 </head>
+
 <body>
-    <div class="welcome-container">
-        <h1>به سامانه میکروسرویس ها خوش آمدید</h1>
-        <div class="button-container">
-            {% for group in groups %}
-                <a href="{% url group.url %}" class="button">ورود به گروه {{ group.id }}</a>
+    <!-- ───── NAVBAR ───── -->
+    <nav class="navbar">
+        <div class="navbar-left">
+            <a href="/" class="nav-link">Home</a>
+        </div>
+
+        <div class="navbar-right">
+            <div class="account-dropdown">
+                <button class="account-btn">
+                    <!-- 20 × 20 user icon -->
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                        <path fill="currentColor"
+                              d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-9 1.7-9 5v3h18v-3c0-3.3-5.7-5-9-5z"/>
+                    </svg>
+                    Account ▾
+                </button>
+                
+                <div class="account-menu">
+                    <a href="{% url 'signup' %}">Sign-Up</a>
+                    <a href="{% url 'login'  %}">Log-In</a>
+                    <a href="{% url 'logout' %}">Log-Out</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ───── HERO / WELCOME ───── -->
+    <section class="welcome-container">
+        <h1>Welcome to the Microservices Platform</h1>
+    </section>
+
+    <!-- ───── GROUP SELECTOR ───── -->
+    <section class="group-selector">
+        <button class="group-btn">Select&nbsp;Group ▾</button>
+        <div   class="group-menu">
+            {% for g in groups %}
+                <a href="{% url g.url %}">Group&nbsp;{{ g.id }}</a>
             {% endfor %}
         </div>
-    </div>
+    </section>
+
+    <!-- ───── JS: toggle each menu on button click ───── -->
+<!-- ───────── JS: toggle menus + auto-close when clicking outside ───────── -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    
+        // helper that wires one button + one menu
+        function wireDropdown(btnSel, menuSel){
+            const btn  = document.querySelector(btnSel);
+            const menu = document.querySelector(menuSel);
+    
+            // toggle on button click
+            btn.addEventListener('click', e => {
+                e.stopPropagation();                // keep click from bubbling to <body>
+                btn.classList.toggle('active');
+                menu.classList.toggle('show');
+            });
+    
+            // close when a link inside menu is clicked (optional)
+            menu.addEventListener('click', () => {
+                btn.classList.remove('active');
+                menu.classList.remove('show');
+            });
+    
+            return {btn, menu};
+        }
+    
+        // wire up both dropdowns
+        const account = wireDropdown('.account-btn', '.account-menu');
+        const groups  = wireDropdown('.group-btn',   '.group-menu');
+    
+        // click anywhere else → close both menus
+        document.addEventListener('click', () => {
+            [account, groups].forEach(({btn, menu}) => {
+                btn.classList.remove('active');
+                menu.classList.remove('show');
+            });
+        });
+    });
+    </script>
+    
 </body>
 </html>

@@ -65,7 +65,7 @@
                 const timeoutId = setTimeout(() => {
                     hideLoading();
                     alert('Request timed out. Please try again.');
-                }, 5000); // 5 seconds timeout
+                }, 5000); // timer for 5 sec
 
                 await fetchAndDisplayWord(word);
                 clearTimeout(timeoutId);
